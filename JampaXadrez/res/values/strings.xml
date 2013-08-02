@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">JampaXadrez</string>
+    <string name="action_settings">Configuracoes</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="menu_play">Jogar</string>
+    <string name="menu_ranking">Ranking</string>
+    <string name="menu_about">Sobre</string>
+    <string name="title_activity_play">PlayActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
