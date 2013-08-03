@@ -1,8 +1,9 @@
 package br.com.praia.jampaxadrez;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
+import android.widget.EditText;
 
 public class PlayActivity extends Activity {
 
@@ -10,6 +11,16 @@ public class PlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
+		
+		populate();
+	}
+
+	private void populate() {
+		EditText edtJogador1 = (EditText) findViewById(R.id.ed_tx_jogador1);
+		EditText edtJogador2 = (EditText) findViewById(R.id.ed_tx_jogador2);
+		
+		edtJogador1.setText("Jogador 1");
+		edtJogador2.setText("Jogador 2");
 	}
 
 	@Override

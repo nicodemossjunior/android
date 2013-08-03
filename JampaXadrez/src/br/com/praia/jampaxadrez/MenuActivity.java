@@ -57,10 +57,16 @@ public class MenuActivity extends Activity implements OnClickListener{
 			break;
 
 		case R.id.imRank:
-
+			
+			Intent rankingActivity = new Intent(this, RankingActivity.class);
+			startActivity(rankingActivity);
+			
 			break;
 
 		case R.id.imAbout:
+			
+			Intent aboutActivity = new Intent(this, AboutActivity.class);
+			startActivity(aboutActivity);
 
 			break;
 
