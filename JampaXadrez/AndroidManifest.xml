@@ -31,14 +31,6 @@
             android:name="br.com.praia.jampaxadrez.PlayActivity"
             android:label="@string/title_activity_play" >
         </activity>
-        <activity
-            android:name="br.com.praia.jampaxadrez.AboutActivity"
-            android:label="@string/title_activity_about" >
-        </activity>
-        <activity
-            android:name="br.com.praia.jampaxadrez.RankingActivity"
-            android:label="@string/title_activity_about" >
-        </activity>
     </application>
 
 </manifest>

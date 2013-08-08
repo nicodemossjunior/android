@@ -23,5 +23,8 @@
     <string name="coord_f">F</string>
     <string name="coord_g">G</string>
     <string name="coord_h">H</string>
+    <string name="jogador_1">Jogador 1</string>
+    <string name="gt">></string>
+    <string name="jogador_2">Jogador 2</string>
 
 </resources>
