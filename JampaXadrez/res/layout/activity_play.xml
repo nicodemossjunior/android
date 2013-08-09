@@ -8,17 +8,23 @@
 
 	    <EditText
 	        android:id="@+id/ed_tx_jogador1"
-	        android:layout_width="wrap_content"
+	        android:layout_width="200dp"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="5dp"
 	        android:hint="@string/jogador_1"
 	        android:inputType="text" />
 	    
 	    <Button android:id="@+id/bt_jogador1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
+	        android:layout_width="42dp"
+	        android:layout_height="42dp" 
 	        android:layout_toRightOf="@+id/ed_tx_jogador1"
 	        android:text="@string/gt"/>
+	    
+	    <Button android:id="@+id/bt_add_vitoria1"
+	        android:layout_width="42dp"
+	        android:layout_height="42dp" 
+	        android:layout_toRightOf="@+id/bt_jogador1"
+	        android:text="@string/add"/>
 
 		<FrameLayout
             android:id="@+id/flayout_tab"
@@ -33,16 +39,25 @@
     
 	    <EditText
 	        android:id="@+id/ed_tx_jogador2"
-	        android:layout_width="wrap_content"
+	        android:layout_width="200dp"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@+id/flayout_tab"
 	        android:hint="@string/jogador_2"
 	        android:inputType="text" />
 	    
 	    <Button android:id="@+id/bt_jogador2" 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
+	        android:layout_width="42dp"
+	        android:layout_height="42dp" 
 			android:layout_below="@+id/flayout_tab"
 			android:layout_toRightOf="@+id/ed_tx_jogador2"
 			android:text="@string/gt"/>
+	    
+	    <Button android:id="@+id/bt_add_vitoria2" 
+	        android:layout_width="42dp"
+	        android:layout_height="42dp" 
+			android:layout_below="@+id/flayout_tab"
+			android:layout_toRightOf="@+id/bt_jogador2"
+			android:text="@string/add"/>
+	    
+	    
 </RelativeLayout>
