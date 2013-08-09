@@ -478,4 +478,8 @@ public class Tabuleiro {
 		return Tabuleiro.casas[pos];
 	}
 
+	public Peca getCasa(int pos) {
+		return Tabuleiro.casas[pos];
+	}
+
 }

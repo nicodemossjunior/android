@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /**
  * @author Bianca
  */
@@ -149,6 +152,17 @@ public class Rainha extends Peca {
 			rainha = "Q";
 		else
 			rainha = "q";
+		return rainha;
+	}
+
+	@Override
+	public int getImagem() {
+		int rainha;
+
+		if (this.getJogador() == 1)
+			rainha = R.drawable.qb;
+		else
+			rainha = R.drawable.qp;
 		return rainha;
 	}
 }

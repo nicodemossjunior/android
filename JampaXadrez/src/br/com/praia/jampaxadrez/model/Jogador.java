@@ -10,6 +10,7 @@ package br.com.praia.jampaxadrez.model;
 public class Jogador {
 	
 	private String name;
+	private int vitorias;
 
 	/**
 	 * @return the name
@@ -24,5 +25,27 @@ public class Jogador {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	/**
+	 * @return the vitorias
+	 */
+	public int getVitorias() {
+		return vitorias;
+	}
+
+	/**
+	 * @param vitorias the vitorias to set
+	 */
+	public void setVitorias(int vitorias) {
+		this.vitorias = vitorias;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return name + "  x  " + vitorias;
+	}
+
 }

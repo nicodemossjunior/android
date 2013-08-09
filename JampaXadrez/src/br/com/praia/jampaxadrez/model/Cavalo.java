@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /*
  * Created on 08/04/2005
  */
@@ -100,6 +103,17 @@ public class Cavalo extends Peca {
 			cavalo = "C";
 		else
 			cavalo = "c";
+		return cavalo;
+	}
+
+	@Override
+	public int getImagem() {
+		int cavalo;
+
+		if (this.getJogador() == 1)
+			cavalo = R.drawable.cb;
+		else
+			cavalo = R.drawable.cp;
 		return cavalo;
 	}
 

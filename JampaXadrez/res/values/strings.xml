@@ -11,6 +11,7 @@
     <string name="hint_usuario_1">Usuário 1</string>
     <string name="hint_usuario_2">Usuário 2</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_ranking">RankingActivity</string>
     <string name="tx_Ranking">Ranking</string>
     <string name="tx_about">About</string>
     <string name="hello_world">Hello world!</string>
@@ -26,5 +27,7 @@
     <string name="jogador_1">Jogador 1</string>
     <string name="gt">></string>
     <string name="jogador_2">Jogador 2</string>
-
+	<string name="tx_im_bt_gravar">Gravar Jogador</string>
+	<string name="add">+</string>
+	
 </resources>

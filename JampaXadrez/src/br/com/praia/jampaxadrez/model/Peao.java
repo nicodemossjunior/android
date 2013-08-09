@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /*
  * Created on 14/04/2005
  */
@@ -148,6 +151,17 @@ public class Peao extends Peca {
 			peao = "P";
 		else
 			peao = "p";
+		return peao;
+	}
+
+	@Override
+	public int getImagem() {
+		int peao;
+
+		if (this.getJogador() == 1)
+			peao = R.drawable.pb;
+		else
+			peao = R.drawable.pp;
 		return peao;
 	}
 
