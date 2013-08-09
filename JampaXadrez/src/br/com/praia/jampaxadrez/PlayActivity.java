@@ -37,6 +37,9 @@ public class PlayActivity extends Activity implements OnClickListener {
 	private final static int leftMargin[] = { 48, 110, 176, 244 };
 	private final static int topMargin[] = { 54, 115, 180, 250 };
 
+	private Jogador jogador1;
+	private Jogador jogador2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class PlayActivity extends Activity implements OnClickListener {
 		
 		findViewById(R.id.bt_jogador1).setOnClickListener(this);
 		findViewById(R.id.bt_jogador2).setOnClickListener(this);
+		findViewById(R.id.bt_add_vitoria1).setOnClickListener(this);
+		findViewById(R.id.bt_add_vitoria2).setOnClickListener(this);
 		
 		populate();
 	}
@@ -178,27 +183,57 @@ public class PlayActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_jogador1:
-			cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador1));
+			jogador1 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador1));
 			break;
 
 		case R.id.bt_jogador2:
-			cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador2));
+			jogador2 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador2));
+			break;
+		
+		case R.id.bt_add_vitoria1:
+			atribuirVitoria(jogador1);
+			break;
+		
+		case R.id.bt_add_vitoria2:
+			atribuirVitoria(jogador2);
 			break;
 		}
 		
 	}
 
 	/**
-	 * @param findViewById
+	 * @param jogador
 	 */
-	private void cadastrarJogador(EditText nomeJogador) {
+	private void atribuirVitoria(Jogador jogador) {
+		ObjectContainer db = MenuActivity.db;
+		if (db != null && !db.ext().isClosed()) {
+			ObjectSet<Jogador> jogadores = db.queryByExample(jogador);
+			if (jogadores != null && !jogadores.isEmpty()) {
+				Jogador obtido = jogadores.next();
+				Log.i(LOG_NAME, obtido.toString());
+				obtido.setVitorias(obtido.getVitorias() + 1);
+				db.store(obtido);
+				db.commit();
+				Toast.makeText(this, "Vitórias: "+obtido.getVitorias(), Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(this, "Jogador não encontrado", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	/**
+	 * Nome do jogador
+	 * @param nomeJogador
+	 * @return jogador cadastrado
+	 */
+	private Jogador cadastrarJogador(EditText nomeJogador) {
 		Jogador jogador = new Jogador();
 		jogador.setName(nomeJogador.getText().toString());
 		
 		ObjectContainer db = MenuActivity.db;
 		if (db != null && !db.ext().isClosed()) {
 			ObjectSet<Jogador> lista = db.queryByExample(jogador);
-			if (!lista.isEmpty()) {
+			if (lista != null && !lista.isEmpty()) {
 				Log.i(LOG_NAME, "Jogador " + jogador.getName() + " encontrado");
 			} else {
 				db.store(jogador);
@@ -209,7 +244,7 @@ public class PlayActivity extends Activity implements OnClickListener {
 			}
 		}
 		
-		
+		return jogador;
 	}
 
 }
