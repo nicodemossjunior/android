@@ -27,6 +27,7 @@
     <string name="jogador_1">Jogador 1</string>
     <string name="gt">></string>
     <string name="jogador_2">Jogador 2</string>
+	<string name="tx_im_bt_gravar">Gravar Jogador</string>
 	<string name="add">+</string>
 	
 </resources>

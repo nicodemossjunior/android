@@ -45,8 +45,8 @@ public class PlayActivity extends Activity implements OnClickListener {
 
 		posicionarPecas();
 		
-		findViewById(R.id.bt_jogador1).setOnClickListener(this);
-		findViewById(R.id.bt_jogador2).setOnClickListener(this);
+		findViewById(R.id.im_bt_jogador1).setOnClickListener(this);
+		findViewById(R.id.im_bt_jogador2).setOnClickListener(this);
 		findViewById(R.id.bt_add_vitoria1).setOnClickListener(this);
 		findViewById(R.id.bt_add_vitoria2).setOnClickListener(this);
 		
@@ -212,11 +212,11 @@ public class PlayActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.bt_jogador1:
+		case R.id.im_bt_jogador1:
 			jogador1 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador1));
 			break;
 
-		case R.id.bt_jogador2:
+		case R.id.im_bt_jogador2:
 			jogador2 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador2));
 			break;
 		
@@ -264,7 +264,9 @@ public class PlayActivity extends Activity implements OnClickListener {
 		if (db != null && !db.ext().isClosed()) {
 			ObjectSet<Jogador> lista = db.queryByExample(jogador);
 			if (lista != null && !lista.isEmpty()) {
-				Log.i(LOG_NAME, "Jogador " + jogador.getName() + " encontrado");
+				Toast.makeText(this,
+						"Jogador " + jogador.getName() + " encontrado.",
+						Toast.LENGTH_SHORT).show();
 			} else {
 				db.store(jogador);
 				db.commit();
