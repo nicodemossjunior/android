@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /**
  * @author Bianca
  */
@@ -111,6 +114,17 @@ public class Torre extends Peca {
 			torre = "T";
 		else
 			torre = "t";
+		return torre;
+	}
+
+	@Override
+	public int getImagem() {
+		int torre;
+
+		if (this.getJogador() == 1)
+			torre = R.drawable.tb;
+		else
+			torre = R.drawable.tp;
 		return torre;
 	}
 

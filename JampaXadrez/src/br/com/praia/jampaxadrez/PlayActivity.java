@@ -17,12 +17,12 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import br.com.praia.jampaxadrez.model.Jogador;
+import br.com.praia.jampaxadrez.model.Peca;
+import br.com.praia.jampaxadrez.model.Tabuleiro;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -33,9 +33,7 @@ public class PlayActivity extends Activity implements OnClickListener {
 	private static final String LOG_NAME = "jampaXadrez";
 	
 	ImageView[] casas;
-	private FrameLayout tab;
-	private final static int leftMargin[] = { 48, 110, 176, 244 };
-	private final static int topMargin[] = { 54, 115, 180, 250 };
+	Tabuleiro tabuleiro;
 
 	private Jogador jogador1;
 	private Jogador jogador2;
@@ -44,8 +42,6 @@ public class PlayActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
-
-		tab = (FrameLayout) findViewById(R.id.flayout_tab);
 
 		posicionarPecas();
 		
@@ -59,55 +55,89 @@ public class PlayActivity extends Activity implements OnClickListener {
 
 	private void posicionarPecas() {
 		casas = new ImageView[64];
+		tabuleiro = new Tabuleiro();
+		
+		casas[0] = (ImageView) findViewById(R.id.im_1);
+		casas[1] = (ImageView) findViewById(R.id.im_2);
+		casas[2] = (ImageView) findViewById(R.id.im_3);
+		casas[3] = (ImageView) findViewById(R.id.im_4);
+		casas[4] = (ImageView) findViewById(R.id.im_5);
+		casas[5] = (ImageView) findViewById(R.id.im_6);
+		casas[6] = (ImageView) findViewById(R.id.im_7);
+		casas[7] = (ImageView) findViewById(R.id.im_8);
 
-		LayoutParams params;
+		casas[8] = (ImageView) findViewById(R.id.im_9);
+		casas[9] = (ImageView) findViewById(R.id.im_10);
+		casas[10] = (ImageView) findViewById(R.id.im_11);
+		casas[11] = (ImageView) findViewById(R.id.im_12);
+		casas[12] = (ImageView) findViewById(R.id.im_13);
+		casas[13] = (ImageView) findViewById(R.id.im_14);
+		casas[14] = (ImageView) findViewById(R.id.im_15);
+		casas[15] = (ImageView) findViewById(R.id.im_16);
 
-		casas[0] = new ImageView(this);
-		casas[0].setImageResource(R.drawable.tp);
-		casas[0].setAdjustViewBounds(true);
-		params = new LayoutParams(40, 40);
-		params.topMargin = topMargin[0];
-		params.leftMargin = leftMargin[0];
-		casas[0].setLayoutParams(params);
-		casas[0].setOnTouchListener(new MyTouchListener());
-		casas[0].setOnDragListener(new MyDragListener());
-		tab.addView(casas[0]);
+		casas[16] = (ImageView) findViewById(R.id.im_17);
+		casas[17] = (ImageView) findViewById(R.id.im_18);
+		casas[18] = (ImageView) findViewById(R.id.im_19);
+		casas[19] = (ImageView) findViewById(R.id.im_20);
+		casas[20] = (ImageView) findViewById(R.id.im_21);
+		casas[21] = (ImageView) findViewById(R.id.im_22);
+		casas[22] = (ImageView) findViewById(R.id.im_23);
+		casas[23] = (ImageView) findViewById(R.id.im_24);
 
-		casas[1] = new ImageView(this);
-		casas[1].setImageResource(R.drawable.cp);
-		casas[1].setAdjustViewBounds(true);
-		params = new LayoutParams(40, 40);
-		params.topMargin = topMargin[0];
-		params.leftMargin = leftMargin[1];
-		casas[1].setLayoutParams(params);
-		tab.addView(casas[1]);
+		casas[24] = (ImageView) findViewById(R.id.im_25);
+		casas[25] = (ImageView) findViewById(R.id.im_26);
+		casas[26] = (ImageView) findViewById(R.id.im_27);
+		casas[27] = (ImageView) findViewById(R.id.im_28);
+		casas[28] = (ImageView) findViewById(R.id.im_29);
+		casas[29] = (ImageView) findViewById(R.id.im_30);
+		casas[30] = (ImageView) findViewById(R.id.im_31);
+		casas[31] = (ImageView) findViewById(R.id.im_32);
 
-		casas[2] = new ImageView(this);
-		casas[2].setImageResource(R.drawable.bp);
-		casas[2].setAdjustViewBounds(true);
-		params = new LayoutParams(40, 40);
-		params.topMargin = topMargin[0];
-		params.leftMargin = leftMargin[2];
-		casas[2].setLayoutParams(params);
-		tab.addView(casas[2]);
+		casas[32] = (ImageView) findViewById(R.id.im_33);
+		casas[33] = (ImageView) findViewById(R.id.im_34);
+		casas[34] = (ImageView) findViewById(R.id.im_35);
+		casas[35] = (ImageView) findViewById(R.id.im_36);
+		casas[36] = (ImageView) findViewById(R.id.im_37);
+		casas[37] = (ImageView) findViewById(R.id.im_38);
+		casas[38] = (ImageView) findViewById(R.id.im_39);
+		casas[39] = (ImageView) findViewById(R.id.im_40);
 
-		casas[3] = new ImageView(this);
-		casas[3].setImageResource(R.drawable.kp);
-		casas[3].setAdjustViewBounds(true);
-		params = new LayoutParams(40, 40);
-		params.topMargin = topMargin[0];
-		params.leftMargin = leftMargin[3];
-		casas[3].setLayoutParams(params);
-		tab.addView(casas[3]);
+		casas[40] = (ImageView) findViewById(R.id.im_41);
+		casas[41] = (ImageView) findViewById(R.id.im_42);
+		casas[42] = (ImageView) findViewById(R.id.im_43);
+		casas[43] = (ImageView) findViewById(R.id.im_44);
+		casas[44] = (ImageView) findViewById(R.id.im_45);
+		casas[45] = (ImageView) findViewById(R.id.im_46);
+		casas[46] = (ImageView) findViewById(R.id.im_47);
+		casas[47] = (ImageView) findViewById(R.id.im_48);
 
-		casas[9] = new ImageView(this);
-		casas[9].setImageResource(R.drawable.pp);
-		casas[9].setAdjustViewBounds(true);
-		params = new LayoutParams(40, 40);
-		params.topMargin = topMargin[1];
-		params.leftMargin = leftMargin[0];
-		casas[9].setLayoutParams(params);
-		tab.addView(casas[9]);
+		casas[48] = (ImageView) findViewById(R.id.im_49);
+		casas[49] = (ImageView) findViewById(R.id.im_50);
+		casas[50] = (ImageView) findViewById(R.id.im_51);
+		casas[51] = (ImageView) findViewById(R.id.im_52);
+		casas[52] = (ImageView) findViewById(R.id.im_53);
+		casas[53] = (ImageView) findViewById(R.id.im_54);
+		casas[54] = (ImageView) findViewById(R.id.im_55);
+		casas[55] = (ImageView) findViewById(R.id.im_56);
+
+		casas[56] = (ImageView) findViewById(R.id.im_57);
+		casas[57] = (ImageView) findViewById(R.id.im_58);
+		casas[58] = (ImageView) findViewById(R.id.im_59);
+		casas[59] = (ImageView) findViewById(R.id.im_60);
+		casas[60] = (ImageView) findViewById(R.id.im_61);
+		casas[61] = (ImageView) findViewById(R.id.im_62);
+		casas[62] = (ImageView) findViewById(R.id.im_63);
+		casas[63] = (ImageView) findViewById(R.id.im_64);
+		
+		for (int i = 0; i < casas.length; i++) {
+			casas[i].setOnTouchListener(new MyTouchListener());
+			Peca peca = tabuleiro.getCasa(i);
+			if (peca != null) {
+				casas[i].setImageResource(peca.getImagem());
+			} else {
+				casas[i].setImageDrawable(null);
+			}
+		}
 	}
 
 	// This defines your touch listener
@@ -133,7 +163,7 @@ public class PlayActivity extends Activity implements OnClickListener {
 		  @Override
 		  public boolean onDrag(View v, DragEvent event) {
 		    int action = event.getAction();
-		    switch (event.getAction()) {
+		    switch (action) {
 		    case DragEvent.ACTION_DRAG_STARTED:
 		    // Do nothing
 		      break;

@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /*
  * Created on 09/04/2005
  */
@@ -116,6 +119,16 @@ public class Bispo extends Peca {
 			bispo = "B";
 		else
 			bispo = "b";
+		return bispo;
+	}
+	@Override
+	public int getImagem() {
+		int bispo;
+
+		if (this.getJogador() == 1)
+			bispo = R.drawable.bb;
+		else
+			bispo = R.drawable.bp;
 		return bispo;
 	}
 

@@ -176,4 +176,6 @@ public abstract class Peca {
 		this.jogador = jogador;
 	}
 
+	public abstract int getImagem();
+
 }

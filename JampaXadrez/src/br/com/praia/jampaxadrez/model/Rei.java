@@ -1,4 +1,7 @@
 package br.com.praia.jampaxadrez.model;
+
+import br.com.praia.jampaxadrez.R;
+
 /*
  * Created on 10/04/2005
  */
@@ -103,6 +106,17 @@ public class Rei extends Peca {
 			rei = "R";
 		else
 			rei = "r";
+		return rei;
+	}
+
+	@Override
+	public int getImagem() {
+		int rei;
+
+		if (this.getJogador() == 1)
+			rei = R.drawable.kb;
+		else
+			rei = R.drawable.kb;
 		return rei;
 	}
 }
