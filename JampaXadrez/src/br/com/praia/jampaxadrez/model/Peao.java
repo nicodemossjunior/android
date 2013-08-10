@@ -31,12 +31,12 @@ public class Peao extends Peca {
 				|| coordenada.equals("b3") || coordenada.equals("b4")
 				|| coordenada.equals("b5") || coordenada.equals("b6")
 				|| coordenada.equals("b7") || coordenada.equals("b8"))
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else if (coordenada.equals("g1") || coordenada.equals("g2")
 				|| coordenada.equals("g3") || coordenada.equals("g4")
 				|| coordenada.equals("g5") || coordenada.equals("g6")
 				|| coordenada.equals("g7") || coordenada.equals("g8"))
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		this.setStatus(true);
 		posInicTabul = this.getPosicao();
 	}
@@ -61,7 +61,7 @@ public class Peao extends Peca {
 		int posiX = Tabuleiro.separaCoordenadaX(coordenada);
 		char posiY = Tabuleiro.separaCoordenadaY(coordenada);
 
-		if (this.getJogador() == 1) {
+		if (this.getCor() == 1) {
 			if (posfY - 2 == posiY && posfX == posiX) {
 				char pecaIntermY = (char) (posfY - 1);
 				int pecaIntermX = posiX;
@@ -71,7 +71,7 @@ public class Peao extends Peca {
 
 				}
 			}
-		} else if (this.getJogador() == 2) {
+		} else if (this.getCor() == 2) {
 			if (posfY + 2 == posiY && posfX == posiX) {
 				char pecaIntermY = (char) (posfY + 1);
 				int pecaIntermX = posiX;
@@ -102,38 +102,34 @@ public class Peao extends Peca {
 		String coordFinal = "" + posfY + posfX;
 		int pos = Tabuleiro.posicaoTabuleiro(coordFinal);
 
-		if (this.getJogador() == 2) {
+		Peca casa = Tabuleiro.getCasa(coordFinal);
+		if (this.getCor() == 2) {
 			if (posInicTabul == coordenada
 					&& (posfY + 2 == posiY && posfX == posiX)
 					&& pecaIntermediaria(posfX, posfY)
 					&& Tabuleiro.ehVazia(pos))
 				return true;
-			if ((posfX == posiX + 1 && posfY == posiY - 1 || posfX == posiX - 1
-					&& posfY == posiY - 1)
-					&& (Tabuleiro.getCasa(coordFinal)).getJogador() != this
-							.getJogador()) {
+			if (Tabuleiro.ehVazia(pos) && (posfY + 1 == posiY && posfX == posiX)) {
 				return true;
 			}
-			if (Tabuleiro.ehVazia(pos)
-					&& (posfY + 1 == posiY && posfX == posiX)) {
+			if ((posfX == posiX + 1 && posfY == posiY - 1 || posfX == posiX - 1	&& posfY == posiY - 1)
+					&& casa != null && casa.getCor() != this.getCor()) {
 				return true;
 			}
 		}
 
-		else if (this.getJogador() == 1) {
+		else if (this.getCor() == 1) {
 			if (posInicTabul == coordenada
 					&& (posfY - 2 == posiY && posfX == posiX)
 					&& pecaIntermediaria(posfX, posfY)
 					&& Tabuleiro.ehVazia(pos))
 				return true;
-			if ((posfX == posiX + 1 && posfY == posiY + 1 || posfX == posiX - 1
-					&& posfY == posiY + 1)
-					&& (Tabuleiro.getCasa(coordFinal)).getJogador() != this
-							.getJogador()) {
-				return true;
-			}
 			if (Tabuleiro.ehVazia(pos)
 					&& (posfY - 1 == posiY && posfX == posiX)) {
+				return true;
+			}
+			if ((posfX == posiX + 1 && posfY == posiY + 1 || posfX == posiX - 1	&& posfY == posiY + 1)
+					&& casa != null && casa.getCor() != this.getCor()) {
 				return true;
 			}
 		}
@@ -147,7 +143,7 @@ public class Peao extends Peca {
 	public String toString() {
 		String peao;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			peao = "P";
 		else
 			peao = "p";
@@ -158,7 +154,7 @@ public class Peao extends Peca {
 	public int getImagem() {
 		int peao;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			peao = R.drawable.pb;
 		else
 			peao = R.drawable.pp;

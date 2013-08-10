@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.com.praia.jampaxadrez.model.Jogador;
+import br.com.praia.jampaxadrez.util.DbHelper;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -27,12 +28,20 @@ public class RankingActivity extends Activity {
 	}
 
 	private void populate() {
-		ObjectContainer db = MenuActivity.db;
+		List<Jogador> arr = consultarJogadores();
+		
+		ArrayAdapter<Jogador> adapter = new ArrayAdapter<Jogador>(this, android.R.layout.simple_list_item_1, arr);
+		ListView listView = (ListView) findViewById(R.id.lv_ranking);
+		listView.setAdapter(adapter);
+	}
+
+	private List<Jogador> consultarJogadores() {
+		List<Jogador> arr = new ArrayList<Jogador>();
+		ObjectContainer db = DbHelper.db;
 		if (db != null && !db.ext().isClosed()) {
 			Query q = db.query();
 			q.constrain(Jogador.class);
 			ObjectSet<Jogador> jogadores = q.execute();
-			List<Jogador> arr = new ArrayList<Jogador>();
 			
 			if (jogadores != null && !jogadores.isEmpty()) {
 				do {
@@ -46,11 +55,9 @@ public class RankingActivity extends Activity {
 					}
 				});
 				
-				ArrayAdapter<Jogador> adapter = new ArrayAdapter<Jogador>(this, android.R.layout.simple_list_item_1, arr);
-				ListView listView = (ListView) findViewById(R.id.lv_ranking);
-				listView.setAdapter(adapter);
 			}
 		}
+		return arr;
 	}
 
 	@Override

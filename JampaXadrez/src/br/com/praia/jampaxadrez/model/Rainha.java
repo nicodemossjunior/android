@@ -19,9 +19,9 @@ public class Rainha extends Peca {
 
 		this.setPosicao(coordenada);
 		if (coordenada.equals("a4"))
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else if (coordenada.equals("h4"))
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		setStatus(true);
 	}
 
@@ -148,7 +148,7 @@ public class Rainha extends Peca {
 	public String toString() {
 		String rainha;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			rainha = "Q";
 		else
 			rainha = "q";
@@ -159,7 +159,7 @@ public class Rainha extends Peca {
 	public int getImagem() {
 		int rainha;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			rainha = R.drawable.qb;
 		else
 			rainha = R.drawable.qp;

@@ -22,9 +22,9 @@ public class Cavalo extends Peca {
 	public Cavalo(String coordenada) {
 		this.setPosicao(coordenada);
 		if (coordenada.equals("a2") || coordenada.equals("a7"))
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else if (coordenada.equals("h2") || coordenada.equals("h7"))
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		this.setStatus(true);
 	}
 
@@ -87,7 +87,7 @@ public class Cavalo extends Peca {
 		Peca p = Tabuleiro.getCasa(coordenada);
 
 		if (p != null)
-			if (this.getJogador() == p.getJogador())
+			if (this.getCor() == p.getCor())
 				return false;
 		return true;
 	}
@@ -99,7 +99,7 @@ public class Cavalo extends Peca {
 	public String toString() {
 		String cavalo;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			cavalo = "C";
 		else
 			cavalo = "c";
@@ -110,7 +110,7 @@ public class Cavalo extends Peca {
 	public int getImagem() {
 		int cavalo;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			cavalo = R.drawable.cb;
 		else
 			cavalo = R.drawable.cp;

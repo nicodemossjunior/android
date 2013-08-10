@@ -3,10 +3,9 @@ package br.com.praia.jampaxadrez;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -15,48 +14,44 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import br.com.praia.jampaxadrez.model.Jogador;
 import br.com.praia.jampaxadrez.model.Peca;
 import br.com.praia.jampaxadrez.model.Tabuleiro;
-
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
+import br.com.praia.jampaxadrez.util.DbHelper;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class PlayActivity extends Activity implements OnClickListener {
 
-	private static final String LOG_NAME = "jampaXadrez";
-	
 	ImageView[] casas;
 	Tabuleiro tabuleiro;
 
 	private Jogador jogador1;
 	private Jogador jogador2;
+	private Jogador jogadorDaVez;
+
+	private int statusPartida = Tabuleiro.MOVIMENTO_VALIDO;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
 
-		posicionarPecas();
-		
 		findViewById(R.id.im_bt_jogador1).setOnClickListener(this);
 		findViewById(R.id.im_bt_jogador2).setOnClickListener(this);
 		findViewById(R.id.bt_add_vitoria1).setOnClickListener(this);
 		findViewById(R.id.bt_add_vitoria2).setOnClickListener(this);
-		
+
+		posicionarPecas();
 		populate();
 	}
 
 	private void posicionarPecas() {
 		casas = new ImageView[64];
 		tabuleiro = new Tabuleiro();
-		
+
 		casas[0] = (ImageView) findViewById(R.id.im_1);
 		casas[1] = (ImageView) findViewById(R.id.im_2);
 		casas[2] = (ImageView) findViewById(R.id.im_3);
@@ -128,9 +123,13 @@ public class PlayActivity extends Activity implements OnClickListener {
 		casas[61] = (ImageView) findViewById(R.id.im_62);
 		casas[62] = (ImageView) findViewById(R.id.im_63);
 		casas[63] = (ImageView) findViewById(R.id.im_64);
-		
+
 		for (int i = 0; i < casas.length; i++) {
-			casas[i].setOnTouchListener(new MyTouchListener());
+			casas[i].setOnTouchListener(new MyTouchListener(this));
+			casas[i].setOnDragListener(new MyDragListener(this));
+
+			casas[i].setTag(i);
+
 			Peca peca = tabuleiro.getCasa(i);
 			if (peca != null) {
 				casas[i].setImageResource(peca.getImagem());
@@ -142,63 +141,148 @@ public class PlayActivity extends Activity implements OnClickListener {
 
 	// This defines your touch listener
 	private final class MyTouchListener implements OnTouchListener {
+
+		private Context activity;
+		
+		MyTouchListener(Context activity) {
+			this.activity = activity;
+		}
+		
 		public boolean onTouch(View view, MotionEvent motionEvent) {
+
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-						view);
-				view.startDrag(data, shadowBuilder, view, 0);
-				view.setVisibility(View.INVISIBLE);
-				return true;
-			} else {
-				return false;
-			}
+				Integer i = (Integer)view.getTag();
+				Peca p = tabuleiro.getCasa(i);
+				if (p != null) {
+					int corJogador = p.getCor();
+					if (statusPartida != Tabuleiro.MOVIMENTO_XEQUE_MATE ){
+						if (jogadorDaVez.getCor() == corJogador) {
+	
+							ClipData data = ClipData.newPlainText("", "");
+							DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+							
+							view.startDrag(data, shadowBuilder, view, 0);
+							view.setVisibility(View.INVISIBLE);
+						} else {
+							Toast.makeText(activity, R.string.jogador_errado, Toast.LENGTH_SHORT).show();
+						}
+						return true;
+					}
+				}
+			} 
+			
+			return false;
+			
 		}
 	}
 
-	class MyDragListener implements OnDragListener {
-		  Drawable enterShape = getResources().getDrawable(R.drawable.tp);
-		  Drawable normalShape = getResources().getDrawable(R.drawable.tp);
-		  
-		  @Override
-		  public boolean onDrag(View v, DragEvent event) {
-		    int action = event.getAction();
-		    switch (action) {
-		    case DragEvent.ACTION_DRAG_STARTED:
-		    // Do nothing
-		      break;
-		    case DragEvent.ACTION_DRAG_ENTERED:
-		      v.setBackgroundDrawable(enterShape);
-		      break;
-		    case DragEvent.ACTION_DRAG_EXITED:        
-		      v.setBackgroundDrawable(normalShape);
-		      break;
-		    case DragEvent.ACTION_DROP:
-		      // Dropped, reassign View to ViewGroup
-		      View view = (View) event.getLocalState();
-		      ViewGroup owner = (ViewGroup) view.getParent();
-		      owner.removeView(view);
-		      LinearLayout container = (LinearLayout) v;
-		      container.addView(view);
-		      view.setVisibility(View.VISIBLE);
-		      break;
-		    case DragEvent.ACTION_DRAG_ENDED:
-		      v.setBackgroundDrawable(normalShape);
-		      default:
-		      break;
-		    }
-		    return true;
-		  }
+	private final class MyDragListener implements OnDragListener {
+		private Context activity;
+
+		// Drawable enterShape = getResources().getDrawable(R.drawable.tp);
+		// Drawable normalShape = getResources().getDrawable(R.drawable.tp);
+		
+		MyDragListener(Context activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public synchronized boolean onDrag(View v, DragEvent event) {
+			
+			int action = event.getAction();
+			ImageView origem = (ImageView) event.getLocalState();
+			ImageView destino = (ImageView) v;
+			
+			boolean jogadaValida = false;
+			
+			switch (action) {
+			case DragEvent.ACTION_DRAG_ENDED:
+				origem.setVisibility(View.VISIBLE);
+				break;
+				
+			case DragEvent.ACTION_DROP:
+				// Dropped, reassign View to ViewGroup
+
+				if (origem.getId() != destino.getId()) {
+					
+					String coordenadaOrigem = Tabuleiro.posicaoTabuleiro((Integer) origem.getTag());
+					String coordenadaDestino = Tabuleiro.posicaoTabuleiro((Integer) destino.getTag());
+					
+					switch (Tabuleiro.analisaMovimento(coordenadaOrigem,coordenadaDestino)) {
+					case Tabuleiro.MOVIMENTO_INVALIDO:
+						Toast.makeText(activity, R.string.mov_invalido, Toast.LENGTH_SHORT).show();
+						jogadaValida = false;
+						break;
+						
+					case Tabuleiro.MOVIMENTO_INVALIDO_XEQUE:
+						Toast.makeText(activity, R.string.mov_invalido_cheque, Toast.LENGTH_SHORT).show();
+						jogadaValida = false;
+						break;
+						
+					case Tabuleiro.MOVIMENTO_XEQUE:
+						Toast.makeText(activity, R.string.mov_cheque, Toast.LENGTH_SHORT).show();
+						jogadaValida = true;
+						break;
+						
+					case Tabuleiro.MOVIMENTO_XEQUE_MATE:
+						Toast.makeText(activity, R.string.mov_cheque_mate, Toast.LENGTH_SHORT).show();
+						jogadaValida = true;
+						statusPartida = Tabuleiro.MOVIMENTO_XEQUE_MATE;
+						DbHelper.atribuirVitoria(jogadorDaVez);
+						
+						break;
+						
+					case Tabuleiro.MOVIMENTO_VALIDO:
+						jogadaValida = true;
+						break;
+						
+					default:
+						break;
+					}
+					
+					if (jogadaValida) {
+						
+						atualizarTabuleiro(origem, destino);
+						
+						if (jogadorDaVez.equals(jogador1)) {
+							jogadorDaVez = jogador2;
+						} else {
+							jogadorDaVez = jogador1;
+						}
+					}
+
+				}
+				break;
+			// case DragEvent.ACTION_DRAG_ENDED:
+			// v.setBackgroundDrawable(normalShape);
+			default:
+				break;
+			}
+			return true;
+		}
+
+		private void atualizarTabuleiro(ImageView origem, ImageView destino) {
+			destino.setImageDrawable(origem.getDrawable());
+			origem.setImageDrawable(null);
+		}
 	}
-	
+
 	private void populate() {
 		EditText edtJogador1 = (EditText) findViewById(R.id.ed_tx_jogador1);
 		EditText edtJogador2 = (EditText) findViewById(R.id.ed_tx_jogador2);
+
+		edtJogador1.setText(R.string.jogador_1);
+		edtJogador2.setText(R.string.jogador_2);
 		
-		edtJogador1.setText("Jogador 1");
-		edtJogador2.setText("Jogador 2");
+		jogador1 = new Jogador(edtJogador1.getText().toString());
+		jogador1.setCor(Tabuleiro.JOGADOR_BRANCO);
+		
+		jogador2 = new Jogador(edtJogador2.getText().toString());
+		jogador2.setCor(Tabuleiro.JOGADOR_PRETO);
+		
+		jogadorDaVez = jogador1;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -206,77 +290,35 @@ public class PlayActivity extends Activity implements OnClickListener {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.im_bt_jogador1:
-			jogador1 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador1));
+			jogador1 = DbHelper
+					.cadastrarJogador(((EditText) findViewById(R.id.ed_tx_jogador1))
+							.getText().toString());
 			break;
 
 		case R.id.im_bt_jogador2:
-			jogador2 = cadastrarJogador((EditText)findViewById(R.id.ed_tx_jogador2));
+			jogador2 = DbHelper
+					.cadastrarJogador(((EditText) findViewById(R.id.ed_tx_jogador2))
+							.getText().toString());
 			break;
-		
+
 		case R.id.bt_add_vitoria1:
-			atribuirVitoria(jogador1);
+			DbHelper.atribuirVitoria(jogador1);
 			break;
-		
+
 		case R.id.bt_add_vitoria2:
-			atribuirVitoria(jogador2);
+			DbHelper.atribuirVitoria(jogador2);
 			break;
 		}
-		
-	}
 
-	/**
-	 * @param jogador
-	 */
-	private void atribuirVitoria(Jogador jogador) {
-		ObjectContainer db = MenuActivity.db;
-		if (db != null && !db.ext().isClosed()) {
-			ObjectSet<Jogador> jogadores = db.queryByExample(jogador);
-			if (jogadores != null && !jogadores.isEmpty()) {
-				Jogador obtido = jogadores.next();
-				Log.i(LOG_NAME, obtido.toString());
-				obtido.setVitorias(obtido.getVitorias() + 1);
-				db.store(obtido);
-				db.commit();
-				Toast.makeText(this, "Vitórias: "+obtido.getVitorias(), Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(this, "Jogador não encontrado", Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
-
-	/**
-	 * Nome do jogador
-	 * @param nomeJogador
-	 * @return jogador cadastrado
-	 */
-	private Jogador cadastrarJogador(EditText nomeJogador) {
-		Jogador jogador = new Jogador();
-		jogador.setName(nomeJogador.getText().toString());
-		
-		ObjectContainer db = MenuActivity.db;
-		if (db != null && !db.ext().isClosed()) {
-			ObjectSet<Jogador> lista = db.queryByExample(jogador);
-			if (lista != null && !lista.isEmpty()) {
-				Toast.makeText(this,
-						"Jogador " + jogador.getName() + " encontrado.",
-						Toast.LENGTH_SHORT).show();
-			} else {
-				db.store(jogador);
-				db.commit();
-				Toast.makeText(this,
-						"Jogador " + jogador.getName() + " cadastrado.",
-						Toast.LENGTH_SHORT).show();
-			}
-		}
-		
-		return jogador;
 	}
 
 }

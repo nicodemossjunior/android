@@ -27,9 +27,9 @@ public class Rei extends Peca {
 	public Rei(String coordenada) {
 		this.setPosicao(coordenada);
 		if (coordenada == "a5") 
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else 
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		setStatus(true);
 	}
 
@@ -89,7 +89,7 @@ public class Rei extends Peca {
 	 */
 	public static void setPosicaoRei(Peca peca) {
 		String posicaoRei = peca.getPosicao();
-		if (peca.getJogador() == 1)
+		if (peca.getCor() == 1)
 			Rei.posicaoRei[0] = posicaoRei;
 		else
 			Rei.posicaoRei[1] = posicaoRei;
@@ -102,7 +102,7 @@ public class Rei extends Peca {
 	public String toString() {
 		String rei;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			rei = "R";
 		else
 			rei = "r";
@@ -113,7 +113,7 @@ public class Rei extends Peca {
 	public int getImagem() {
 		int rei;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			rei = R.drawable.kb;
 		else
 			rei = R.drawable.kb;

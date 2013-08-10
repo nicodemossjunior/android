@@ -3,19 +3,15 @@ package br.com.praia.jampaxadrez;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
+import br.com.praia.jampaxadrez.util.DbHelper;
 
 public class MenuActivity extends Activity implements OnClickListener{
 
-	public static ObjectContainer db;
-	private static final String LOG_NAME = "jampaXadrez";
+	private static final String DB_NAME = "jampaXadrez.db4o";;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +21,12 @@ public class MenuActivity extends Activity implements OnClickListener{
 		((ImageButton)findViewById(R.id.imPlay)).setOnClickListener(this);
 		((ImageButton)findViewById(R.id.imRank)).setOnClickListener(this);
 		((ImageButton)findViewById(R.id.imAbout)).setOnClickListener(this);
-		
-		configureDB();
+
+		DbHelper.configureDB(getDir("", MODE_PRIVATE).getPath() + "/" + DB_NAME);
 		
 	}
 
-	public void configureDB() {
-		if (db == null || db.ext().isClosed()) {
-			String DB_NAME = "jampaXadrez.db4o";
-			String DB_PATH = getDir("", MODE_PRIVATE).getPath();
-			try {
-				db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(),
-						DB_PATH + "/" + DB_NAME);
-			} catch (Exception e) {
-				Log.e(LOG_NAME,
-						"Nao foi possivel abrir o arquivo : " + DB_PATH + "/"
-								+ DB_NAME + "\n Mensagem original: "
-								+ e.getMessage());
-			}
-		}
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,8 +73,8 @@ public class MenuActivity extends Activity implements OnClickListener{
 	protected void onDestroy() {
 		super.onDestroy();
 		
-		if (db != null) {
-			db.close();
+		if (DbHelper.db != null) {
+			DbHelper.db.close();
 		}
 	}
 

@@ -1,4 +1,5 @@
 package br.com.praia.jampaxadrez.model;
+
 /*
  * Created on 08/04/2005
  */
@@ -9,30 +10,42 @@ package br.com.praia.jampaxadrez.model;
  * @author Andreza
  */
 public class Tabuleiro {
-	/** casas indica as 64 posições do tabuleiro cada casa tem sua coordenada associada*/
+	/**
+	 * casas indica as 64 posições do tabuleiro cada casa tem sua coordenada
+	 * associada
+	 */
 	private static Peca[] casas;
 
-	/**colunas coordenada vertical do tabuleiro. Varia de 1 até 8*/
+	/** colunas coordenada vertical do tabuleiro. Varia de 1 até 8 */
 	private static int colunas[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-	/**colunas coordenada horizontal do tabuleiro. Varia de a até h*/
+	/** colunas coordenada horizontal do tabuleiro. Varia de a até h */
 	private static char linhas[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-	/**pecasFora1 guarda as peças que estão fora do jogador 1*/
+	/** pecasFora1 guarda as peças que estão fora do jogador 1 */
 	private static Peca[] pecasFora1;
 
-	/**pecasFora2 guarda as peças que estão fora do jogador 2*/
+	/** pecasFora2 guarda as peças que estão fora do jogador 2 */
 	private static Peca[] pecasFora2;
 
-	/**qtdFora1 indica quantas peças do jogador 1 estão fora do jogo*/
+	/** qtdFora1 indica quantas peças do jogador 1 estão fora do jogo */
 	private static int qtdFora1 = 0;
 
-	/**qtdFora2 indica quantas peças do jogador 2 estão fora do jogo*/
+	/** qtdFora2 indica quantas peças do jogador 2 estão fora do jogo */
 	private static int qtdFora2 = 0;
+	
+	public static final int MOVIMENTO_INVALIDO_XEQUE = -1;
+	public static final int MOVIMENTO_INVALIDO = 1;
+	public static final int MOVIMENTO_XEQUE_MATE = 2;
+	public static final int MOVIMENTO_XEQUE = 3;
+	public static final int MOVIMENTO_VALIDO = 4;
+	
+	public static final int JOGADOR_BRANCO = 1;
+	public static final int JOGADOR_PRETO = 2;
 
 	/**
-	 * Construtor da Classe Tabuleiro
-	 * Responsável por instanciar todas as peças em seus devidos lugares
+	 * Construtor da Classe Tabuleiro Responsável por instanciar todas as peças
+	 * em seus devidos lugares
 	 */
 	public Tabuleiro() {
 		casas = new Peca[64];
@@ -73,11 +86,12 @@ public class Tabuleiro {
 		Tabuleiro.casas[55] = new Peao("g8");
 	}
 
-/**
- * 
- * @param jogada - coordenada de destino de uma jogada 
- * @return retorna true se coordenada estiver contida no tabuleiro
- */
+	/**
+	 * 
+	 * @param jogada
+	 *            - coordenada de destino de uma jogada
+	 * @return retorna true se coordenada estiver contida no tabuleiro
+	 */
 	public static boolean coordenadaValida(String jogada) {
 		char linha;
 		String temp;
@@ -91,10 +105,13 @@ public class Tabuleiro {
 				return true;
 		return false;
 	}
-/**
- * @param coordenada - coordenada qualquer, pode ser de destino ou de origem
- * @return Retorna o primeiro caracter da coordenada correspondente a uma linha do tabuleiro 
- */
+
+	/**
+	 * @param coordenada
+	 *            - coordenada qualquer, pode ser de destino ou de origem
+	 * @return Retorna o primeiro caracter da coordenada correspondente a uma
+	 *         linha do tabuleiro
+	 */
 	public static char separaCoordenadaY(String coordenada) {
 		char linha;
 
@@ -103,8 +120,9 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * @param coordenada - coordenada qualquer, pode ser de destino ou de origem
-	 * @return retorna um inteiro correspondente a coluna do tabuleiro 
+	 * @param coordenada
+	 *            - coordenada qualquer, pode ser de destino ou de origem
+	 * @return retorna um inteiro correspondente a coluna do tabuleiro
 	 */
 	public static int separaCoordenadaX(String coordenada) {
 		String temp;
@@ -115,76 +133,120 @@ public class Tabuleiro {
 		return coluna;
 	}
 
-/**
- * @param coordenada qualquer dentro do tabuleiro
- * @return Retorna um inteiro correspondente da coordenada a uma posição
- * do tabuleiro
- */
+	/**
+	 * @param coordenada
+	 *            qualquer dentro do tabuleiro
+	 * @return Retorna um inteiro correspondente da coordenada a uma posição do
+	 *         tabuleiro
+	 */
 	public static int posicaoTabuleiro(String coordenada) {
 		int posicaoTabuleiro = -1;
 		int posX = Tabuleiro.separaCoordenadaX(coordenada);
 		char posY = Tabuleiro.separaCoordenadaY(coordenada);
 
 		switch (posY) {
-			case 'a' :
-				posicaoTabuleiro = (--posX);
-				break;
-			case 'b' :
-				posicaoTabuleiro = (--posX) + 8;
-				break;
-			case 'c' :
-				posicaoTabuleiro = (--posX) + 16;
-				break;
-			case 'd' :
-				posicaoTabuleiro = (--posX) + 24;
-				break;
-			case 'e' :
-				posicaoTabuleiro = (--posX) + 32;
-				break;
-			case 'f' :
-				posicaoTabuleiro = (--posX) + 40;
-				break;
-			case 'g' :
-				posicaoTabuleiro = (--posX) + 48;
-				break;
-			case 'h' :
-				posicaoTabuleiro = (--posX) + 56;
+		case 'a':
+			posicaoTabuleiro = (--posX);
+			break;
+		case 'b':
+			posicaoTabuleiro = (--posX) + 8;
+			break;
+		case 'c':
+			posicaoTabuleiro = (--posX) + 16;
+			break;
+		case 'd':
+			posicaoTabuleiro = (--posX) + 24;
+			break;
+		case 'e':
+			posicaoTabuleiro = (--posX) + 32;
+			break;
+		case 'f':
+			posicaoTabuleiro = (--posX) + 40;
+			break;
+		case 'g':
+			posicaoTabuleiro = (--posX) + 48;
+			break;
+		case 'h':
+			posicaoTabuleiro = (--posX) + 56;
 		}
 		return posicaoTabuleiro;
 	}
 
-/**
- * @param p - peça a qual será inserida no array de peçaFora
- */
+	/**
+	 * @param posicao
+	 *            qualquer posicao do tabuleiro
+	 * @return Retorna uma String correspondente a coordenada do tabuleiro
+	 */
+	public static String posicaoTabuleiro(int posicao) {
+		
+		String coordenada = "";
+		int posX = (posicao % 8) + 1;
+		int posY = (int)posicao/8;
+
+		switch (posY) {
+		case 0 :
+			coordenada = "a";
+			break;
+		case 1:
+			coordenada = "b";
+			break;
+		case 2:
+			coordenada = "c";
+			break;
+		case 3:
+			coordenada = "d";
+			break;
+		case 4:
+			coordenada = "e";
+			break;
+		case 5:
+			coordenada = "f";
+			break;
+		case 6:
+			coordenada = "g";
+			break;
+		case 7:
+			coordenada = "h";
+		}
+		return coordenada + posX ;
+	}
+
+	/**
+	 * @param p
+	 *            - peça a qual será inserida no array de peçaFora
+	 */
 	public static void setPecaFora(Peca p) {
 		int pos = Tabuleiro.posicaoTabuleiro(p.getPosicao());
 
 		if (!Tabuleiro.ehVazia(pos))
-			if (p.getJogador() == 1) {
+			if (p.getCor() == 1) {
 				pecasFora1[qtdFora1] = p;
 				++qtdFora1;
-			} else if (p.getJogador() == 2) {
+			} else if (p.getCor() == 2) {
 				pecasFora2[qtdFora2] = p;
 				++qtdFora2;
 			}
 	}
-/**
- * @param coordi - Coordenada inicial de um movimento
- * @param coordf - Coordenada final de um movimento
- * @return
- */
+
+	/**
+	 * @param coordi
+	 *            - Coordenada inicial de um movimento
+	 * @param coordf
+	 *            - Coordenada final de um movimento
+	 * @return
+	 */
 	public static int analisaMovimento(String coordi, String coordf) {
 		Peca pecaDaVez = Tabuleiro.getCasa(coordi);
 		String coordPecaDaVez = pecaDaVez.getPosicao();
 		String coordReiAdversario;
 
-		if (pecaDaVez.getJogador() == 1)
+		if (pecaDaVez.getCor() == 1)
 			coordReiAdversario = Rei.getPosicaoRei(2);
 		else
 			coordReiAdversario = Rei.getPosicaoRei(1);
-//		int jogDaVez = pecaDaVez.getJogador();
+		// int jogDaVez = pecaDaVez.getJogador();
 
-		if (verificaJogadaSuicida(coordi, coordf) == 0) //jogada pode ser feita
+		if (verificaJogadaSuicida(coordi, coordf) == 0) // jogada pode ser feita
 			return verificaXeque(coordPecaDaVez, coordReiAdversario);
 		return verificaJogadaSuicida(coordi, coordf);
 	}
@@ -202,17 +264,17 @@ public class Tabuleiro {
 		Tabuleiro.casas[casai] = pJogadora;
 		Tabuleiro.casas[casaf] = pEngolida;
 		pJogadora.setPosicao(coordi);
-		if (pEngolida.getJogador() == 1)
+		if (pEngolida.getCor() == 1)
 			qtdFora1--;
 		else
 			qtdFora2--;
 	}
 
-	//-1 tem jogada suicida,0 nao tem, 1 nao pode ser feita a jogada
+	// -1 tem jogada suicida,0 nao tem, 1 nao pode ser feita a jogada
 	public static int verificaJogadaSuicida(String coordi, String coordf) {
 		Peca pecaDaVez = Tabuleiro.getCasa(coordi);
 		Peca pecaAdversaria = Tabuleiro.getCasa(coordf); /* pode ser null */
-//		String posReiAdversario;
+		// String posReiAdversario;
 
 		if (pecaDaVez.mova_se(coordf)) {
 			/*
@@ -220,18 +282,18 @@ public class Tabuleiro {
 			 * das peças
 			 */
 
-			String posReiDaVez = Rei.getPosicaoRei(pecaDaVez.getJogador());
-//			if (pecaDaVez.getJogador() == 1)
-//				posReiAdversario = Rei.getPosicaoRei(2);
-//			else
-//				posReiAdversario = Rei.getPosicaoRei(1);
-			int jogDaVez = pecaDaVez.getJogador();
-//			int jogAdversario =
-//				Tabuleiro.getCasa(posReiAdversario).getJogador();
+			String posReiDaVez = Rei.getPosicaoRei(pecaDaVez.getCor());
+			// if (pecaDaVez.getJogador() == 1)
+			// posReiAdversario = Rei.getPosicaoRei(2);
+			// else
+			// posReiAdversario = Rei.getPosicaoRei(1);
+			int jogDaVez = pecaDaVez.getCor();
+			// int jogAdversario =
+			// Tabuleiro.getCasa(posReiAdversario).getJogador();
 
 			for (int i = 0; i < 63; i++) {
 				if (Tabuleiro.casas[i] != null
-					&& (Tabuleiro.casas[i]).getJogador() != jogDaVez) {
+						&& (Tabuleiro.casas[i]).getCor() != jogDaVez) {
 					int posRX = Tabuleiro.separaCoordenadaX(posReiDaVez);
 					char posRY = Tabuleiro.separaCoordenadaY(posReiDaVez);
 					if ((Tabuleiro.casas[i]).jogadaValida(posRX, posRY)) {
@@ -249,8 +311,8 @@ public class Tabuleiro {
 			}
 			return 0;
 			/*
-								  * o rei nao é ameaçado, portanto a jogada pode ser feita
-								  */
+			 * o rei nao é ameaçado, portanto a jogada pode ser feita
+			 */
 
 		}
 		return 1;
@@ -269,25 +331,22 @@ public class Tabuleiro {
 	/**
 	 * verifica se o rei adversario está em xeque depois da jogada realizada
 	 * 
-	 * @return @param
-	 *         coordRei = rei adversario
+	 * @return @param coordRei = rei adversario
 	 */
 	public static int verificaXeque(String coordPecaXeque, String coordRei) {
-		int jogadorRei = Tabuleiro.getCasa(coordRei).getJogador();
+		int jogadorRei = Tabuleiro.getCasa(coordRei).getCor();
 
 		for (int i = 0; i < 63; i++) {
 			if (Tabuleiro.casas[i] != null)
-				if ((Tabuleiro.casas[i]).getJogador() != jogadorRei) {
+				if ((Tabuleiro.casas[i]).getCor() != jogadorRei) {
 					int posrX = Tabuleiro.separaCoordenadaX(coordRei);
 					char posrY = Tabuleiro.separaCoordenadaY(coordRei);
 					if ((Tabuleiro.casas[i]).jogadaValida(posrX, posrY)) {
-						if (Tabuleiro
-							.xequeMate(
-								(Tabuleiro.casas[i]).getPosicao(),
-								coordRei)) {
-							return 2; //jogo acabou!
+						if (Tabuleiro.xequeMate(
+								(Tabuleiro.casas[i]).getPosicao(), coordRei)) {
+							return 2; // jogo acabou!
 						}
-						return 3; //rei adversario em xeque!
+						return 3; // rei adversario em xeque!
 					}
 					/*
 					 * O jogador adversario tem seu rei em Xeque
@@ -295,13 +354,13 @@ public class Tabuleiro {
 
 				}
 		}
-		return 4; //jogada normal.
+		return 4; // jogada normal.
 	}
 
 	public static boolean xequeMate(String coordPecaXeque, String coordRei) {
-		//peça que dá o xeque
+		// peça que dá o xeque
 		Peca pecaXeque = Tabuleiro.getCasa(coordPecaXeque);
-		//peca que realiza o
+		// peca que realiza o
 		// xeque
 
 		/* verifica se alguma peca pode comer a que aponta para o rei */
@@ -309,13 +368,13 @@ public class Tabuleiro {
 			if (Tabuleiro.casas[i] != null) {
 
 				String coordPecaSalvadora = Tabuleiro.casas[i].getPosicao();
-				if ((Tabuleiro.casas[i]).getJogador() != pecaXeque.getJogador()
-					&& Tabuleiro.verificaJogadaSuicida(
-						Tabuleiro.casas[i].getPosicao(),
-						coordPecaXeque)
-						== 0) {
+				if ((Tabuleiro.casas[i]).getCor() != pecaXeque.getCor()
+						&& Tabuleiro
+								.verificaJogadaSuicida(
+										Tabuleiro.casas[i].getPosicao(),
+										coordPecaXeque) == 0) {
 					Tabuleiro.desfazerMovimento(coordPecaSalvadora, pecaXeque);
-					//rei fica exposto depois da jogada
+					// rei fica exposto depois da jogada
 					return false;
 				}
 				if (!(pecaXeque instanceof Cavalo || pecaXeque instanceof Rei))
@@ -335,7 +394,7 @@ public class Tabuleiro {
 		/*
 		 * Informa qual o jogador do rei
 		 */
-		if (pecaXeque.getJogador() == 1)
+		if (pecaXeque.getCor() == 1)
 			jogadorRei = 2;
 		else
 			jogadorRei = 1;
@@ -347,26 +406,21 @@ public class Tabuleiro {
 		int posPecaXequeX = Tabuleiro.separaCoordenadaX(coordXeque);
 		for (int i = 0; i < 63; i++) {
 			if (Tabuleiro.casas[i] != null) {
-//				Peca pecaCasa = Tabuleiro.casas[i];
-				if ((Tabuleiro.casas[i]).getJogador() != pecaXeque.getJogador()
-					&& Tabuleiro.casas[i].jogadaValida(
-						posPecaXequeX,
-						posPecaXequeY)) {
+				// Peca pecaCasa = Tabuleiro.casas[i];
+				if ((Tabuleiro.casas[i]).getCor() != pecaXeque.getCor()
+						&& Tabuleiro.casas[i].jogadaValida(posPecaXequeX,
+								posPecaXequeY)) {
 					if (posRY > posPecaXequeY) {
 						if (posRX == posPecaXequeX)
 							for (i = posPecaXequeY + 1; i < posRY; i++)
 								if (pecaXeque.jogadaValida(posRX, (char) i))
 									return false;
 						if (posRX < posPecaXequeX)
-							for (i = posPecaXequeY + 1, j = (posPecaXequeX - 1);
-								i < posRY;
-								i++, j--)
+							for (i = posPecaXequeY + 1, j = (posPecaXequeX - 1); i < posRY; i++, j--)
 								if (pecaXeque.jogadaValida(j, (char) i))
 									return false;
 						if (posRX > posPecaXequeX)
-							for (i = posPecaXequeY + 1, j = posPecaXequeX + 1;
-								i < posRY;
-								i++, j++)
+							for (i = posPecaXequeY + 1, j = posPecaXequeX + 1; i < posRY; i++, j++)
 								if (pecaXeque.jogadaValida(j, (char) i))
 									return false;
 					}
@@ -376,16 +430,12 @@ public class Tabuleiro {
 								if (pecaXeque.jogadaValida(posRX, (char) i))
 									return false;
 						if (posRX > posPecaXequeX)
-							for (i = posPecaXequeY - 1, j = posPecaXequeX + 1;
-								i > posRY;
-								i--, j++)
+							for (i = posPecaXequeY - 1, j = posPecaXequeX + 1; i > posRY; i--, j++)
 								if (pecaXeque.jogadaValida(j, (char) i))
 									return false;
 
 						if (posRX < posPecaXequeX)
-							for (i = posPecaXequeY - 1, j = posPecaXequeX - 1;
-								i > posRY;
-								i--, j--)
+							for (i = posPecaXequeY - 1, j = posPecaXequeX - 1; i > posRY; i--, j--)
 								if (pecaXeque.jogadaValida(j, (char) i))
 									return false;
 					}
@@ -451,7 +501,7 @@ public class Tabuleiro {
 		tabuleiro += "\n   1 2 3 4 5 6 7 8        " + jogador2;
 		return tabuleiro;
 	}
-	
+
 	@Override
 	public String toString() {
 		return toString("Jogador1", "Jogador2");
@@ -462,7 +512,7 @@ public class Tabuleiro {
 		if (p != null)
 			p.setPosicao(coordenada);
 		if (p instanceof Rei)
-			if (p.getJogador() == 1)
+			if (p.getCor() == 1)
 				Rei.setPosicaoRei(p);
 			else
 				Rei.setPosicaoRei(p);

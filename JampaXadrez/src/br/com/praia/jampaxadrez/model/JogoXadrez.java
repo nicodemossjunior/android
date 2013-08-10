@@ -77,7 +77,7 @@ public class JogoXadrez {
 					if (jogadaF.equals("desistir") || jogadaF.equals("fim"))
 						break;
 					if (validaComando(jogadaF))
-						if (p.getJogador() == jogadorDaVez) {
+						if (p.getCor() == jogadorDaVez) {
 							switch (Tabuleiro
 									.analisaMovimento(jogadaI, jogadaF)) {
 							case -1:

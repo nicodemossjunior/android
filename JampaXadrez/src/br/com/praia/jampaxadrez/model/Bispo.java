@@ -21,9 +21,9 @@ public class Bispo extends Peca {
 	public Bispo(String coordenada) {
 		this.setPosicao(coordenada);
 		if (coordenada.equals("a3") || coordenada.equals("a6"))
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else if (coordenada.equals("h3") || coordenada.equals("h6"))
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		setStatus(true);
 	}
 	/**
@@ -115,7 +115,7 @@ public class Bispo extends Peca {
 	public String toString() {
 		String bispo;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			bispo = "B";
 		else
 			bispo = "b";
@@ -125,7 +125,7 @@ public class Bispo extends Peca {
 	public int getImagem() {
 		int bispo;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			bispo = R.drawable.bb;
 		else
 			bispo = R.drawable.bp;

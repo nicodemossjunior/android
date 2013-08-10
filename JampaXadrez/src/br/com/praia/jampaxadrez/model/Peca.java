@@ -12,7 +12,7 @@ package br.com.praia.jampaxadrez.model;
 public abstract class Peca {
 
 	/** Jogador representa o time ao qual as peças pertencem */
-	private int jogador;
+	private int cor;
 
 	/** Status informa se a peça está no jogo */
 	private boolean status;
@@ -103,7 +103,7 @@ public abstract class Peca {
 		Peca p = Tabuleiro.getCasa(coordenada);
 
 		if (p != null)
-			if (this.getJogador() == p.getJogador())
+			if (this.getCor() == p.getCor())
 				return false;
 		return true;
 	}
@@ -164,16 +164,16 @@ public abstract class Peca {
 	 * @return o jogador, que é representado por um número, jogador 1 ou jogador
 	 *         2
 	 */
-	public int getJogador() {
-		return this.jogador;
+	public int getCor() {
+		return this.cor;
 	}
 
 	/**
-	 * Método que define o jogador
-	 * @param jogador representa o jogador no momento, que pode ser o jogador 1 ou o 2
+	 * Método que define a cor do jogador
+	 * @param cor representa o jogador no momento, que pode ser o jogador 1 (branco) ou o 2 (preto)
 	 */
-	public void setJogador(int jogador) {
-		this.jogador = jogador;
+	public void setCor(int cor) {
+		this.cor = cor;
 	}
 
 	public abstract int getImagem();

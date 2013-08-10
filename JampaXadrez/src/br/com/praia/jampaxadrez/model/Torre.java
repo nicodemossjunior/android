@@ -19,9 +19,9 @@ public class Torre extends Peca {
 
 		this.setPosicao(coordenada);
 		if (coordenada.equals("a1") || coordenada.equals("a8"))
-			this.setJogador(1);
+			this.setCor(Tabuleiro.JOGADOR_BRANCO);
 		else if (coordenada.equals("h1") || coordenada.equals("h8"))
-			this.setJogador(2);
+			this.setCor(Tabuleiro.JOGADOR_PRETO);
 		setStatus(true);
 	}
 
@@ -110,7 +110,7 @@ public class Torre extends Peca {
 	public String toString() {
 		String torre;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			torre = "T";
 		else
 			torre = "t";
@@ -121,7 +121,7 @@ public class Torre extends Peca {
 	public int getImagem() {
 		int torre;
 
-		if (this.getJogador() == 1)
+		if (this.getCor() == 1)
 			torre = R.drawable.tb;
 		else
 			torre = R.drawable.tp;

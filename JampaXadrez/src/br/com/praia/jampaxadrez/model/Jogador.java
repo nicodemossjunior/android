@@ -11,6 +11,11 @@ public class Jogador {
 	
 	private String name;
 	private int vitorias;
+	private int cor;
+	
+	public Jogador(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * @return the name
@@ -38,6 +43,22 @@ public class Jogador {
 	 */
 	public void setVitorias(int vitorias) {
 		this.vitorias = vitorias;
+	}
+	
+	public int getCor() {
+		return cor;
+	}
+
+	public void setCor(int cor) {
+		this.cor = cor;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Jogador) {
+			return this.name.equals(((Jogador)o).getName());
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)

@@ -2,19 +2,18 @@
 <resources>
 
     <string name="app_name">JampaXadrez</string>
-    <string name="action_settings">Configuracoes</string>
+    <string name="action_settings">Configurações</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="menu_play">Jogar</string>
     <string name="menu_ranking">Ranking</string>
     <string name="menu_about">Sobre</string>
-    <string name="title_activity_play">PlayActivity</string>
+    <string name="title_activity_play">JampaXadrex</string>
     <string name="hint_usuario_1">Usuário 1</string>
     <string name="hint_usuario_2">Usuário 2</string>
-    <string name="title_activity_about">AboutActivity</string>
-    <string name="title_activity_ranking">RankingActivity</string>
+    <string name="title_activity_about">Sobre</string>
+    <string name="title_activity_ranking">Vitórias</string>
     <string name="tx_Ranking">Ranking</string>
     <string name="tx_about">About</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_teste">TesteActivity</string>
     <string name="coord_a">A</string>
     <string name="coord_b">B</string>
@@ -29,5 +28,15 @@
     <string name="jogador_2">Jogador 2</string>
 	<string name="tx_im_bt_gravar">Gravar Jogador</string>
 	<string name="add">+</string>
+	<string name="mov_invalido">Movimento Inválido!</string>
+	<string name="mov_invalido_cheque">Jogada Invalida. Rei em xeque!</string>
+	<string name="mov_cheque">Xeque!</string>
+	<string name="mov_cheque_mate">Xeque Mate!</string>
+	<string name="jogador_errado">Não é a sua vez!</string>
+	
+	
+	
+	
+	
 	
 </resources>
