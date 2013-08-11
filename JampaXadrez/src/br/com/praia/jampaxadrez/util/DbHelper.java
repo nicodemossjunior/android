@@ -1,11 +1,17 @@
 package br.com.praia.jampaxadrez.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import android.util.Log;
 import br.com.praia.jampaxadrez.model.Jogador;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Query;
 
 public class DbHelper {
 
@@ -72,6 +78,28 @@ public class DbHelper {
 		return jogador;
 	}
 
-	
+	/**
+	 * @return lista com todos os jogadores
+	 */
+	public static List<Jogador> obterJogadores() {
+		List<Jogador> itens = new ArrayList<Jogador>();
+
+		if (db != null && !db.ext().isClosed()) {
+			Query q = db.query();
+			q.constrain(Jogador.class);
+			ObjectSet<Jogador> jogadores = q.execute();
+			
+			itens.addAll(jogadores);
+			
+			Collections.sort(itens, new Comparator<Jogador>() {
+				@Override
+				public int compare(Jogador j1, Jogador j2) {
+					return j1.getVitorias() < j2.getVitorias() ? 1 : j1.getVitorias() > j2.getVitorias() ? -1 : 0;
+				}
+			});
+		}
+		return itens;
+	}
+
 	
 }
