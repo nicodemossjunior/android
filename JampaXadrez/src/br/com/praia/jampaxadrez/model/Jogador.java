@@ -66,7 +66,7 @@ public class Jogador {
 	 */
 	@Override
 	public String toString() {
-		return name + "  x  " + vitorias;
+		return name + ", " + vitorias + " vitoria(s)";
 	}
 
 }

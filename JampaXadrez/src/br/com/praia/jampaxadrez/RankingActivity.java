@@ -1,8 +1,5 @@
 package br.com.praia.jampaxadrez;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,10 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.com.praia.jampaxadrez.model.Jogador;
 import br.com.praia.jampaxadrez.util.DbHelper;
-
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-import com.db4o.query.Query;
 
 public class RankingActivity extends Activity {
 
@@ -36,28 +29,7 @@ public class RankingActivity extends Activity {
 	}
 
 	private List<Jogador> consultarJogadores() {
-		List<Jogador> arr = new ArrayList<Jogador>();
-		ObjectContainer db = DbHelper.db;
-		if (db != null && !db.ext().isClosed()) {
-			Query q = db.query();
-			q.constrain(Jogador.class);
-			ObjectSet<Jogador> jogadores = q.execute();
-			
-			if (jogadores != null && !jogadores.isEmpty()) {
-				do {
-					arr.add(jogadores.next());
-				} while (jogadores.hasNext());
-				
-				Collections.sort(arr, new Comparator<Jogador>() {
-					@Override
-					public int compare(Jogador j1, Jogador j2) {
-						return j1.getVitorias() < j2.getVitorias() ? 1 : j1.getVitorias() > j2.getVitorias() ? -1 : 0;
-					}
-				});
-				
-			}
-		}
-		return arr;
+		return DbHelper.obterJogadores();
 	}
 
 	@Override

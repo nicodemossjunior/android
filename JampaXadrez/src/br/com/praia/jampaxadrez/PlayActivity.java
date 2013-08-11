@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -41,8 +42,6 @@ public class PlayActivity extends Activity implements OnClickListener {
 
 		findViewById(R.id.im_bt_jogador1).setOnClickListener(this);
 		findViewById(R.id.im_bt_jogador2).setOnClickListener(this);
-		findViewById(R.id.bt_add_vitoria1).setOnClickListener(this);
-		findViewById(R.id.bt_add_vitoria2).setOnClickListener(this);
 
 		posicionarPecas();
 		populate();
@@ -178,9 +177,6 @@ public class PlayActivity extends Activity implements OnClickListener {
 
 	private final class MyDragListener implements OnDragListener {
 		private Context activity;
-
-		// Drawable enterShape = getResources().getDrawable(R.drawable.tp);
-		// Drawable normalShape = getResources().getDrawable(R.drawable.tp);
 		
 		MyDragListener(Context activity) {
 			this.activity = activity;
@@ -190,14 +186,21 @@ public class PlayActivity extends Activity implements OnClickListener {
 		public synchronized boolean onDrag(View v, DragEvent event) {
 			
 			int action = event.getAction();
-			ImageView origem = (ImageView) event.getLocalState();
+			final ImageView origem = (ImageView) event.getLocalState();
 			ImageView destino = (ImageView) v;
 			
 			boolean jogadaValida = false;
 			
 			switch (action) {
 			case DragEvent.ACTION_DRAG_ENDED:
-				origem.setVisibility(View.VISIBLE);
+				origem.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						origem.setVisibility(View.VISIBLE);
+					}
+				});
+				
 				break;
 				
 			case DragEvent.ACTION_DROP:
@@ -228,7 +231,9 @@ public class PlayActivity extends Activity implements OnClickListener {
 						Toast.makeText(activity, R.string.mov_cheque_mate, Toast.LENGTH_SHORT).show();
 						jogadaValida = true;
 						statusPartida = Tabuleiro.MOVIMENTO_XEQUE_MATE;
-						DbHelper.atribuirVitoria(jogadorDaVez);
+						DbHelper.cadastrarJogador(jogador1.getName());
+						DbHelper.cadastrarJogador(jogador2.getName());
+						DbHelper.atribuirVitoria(jogadorDaVez.getName());
 						
 						break;
 						
@@ -309,16 +314,7 @@ public class PlayActivity extends Activity implements OnClickListener {
 					.cadastrarJogador(((EditText) findViewById(R.id.ed_tx_jogador2))
 							.getText().toString());
 			break;
-
-		case R.id.bt_add_vitoria1:
-			DbHelper.atribuirVitoria(jogador1);
-			break;
-
-		case R.id.bt_add_vitoria2:
-			DbHelper.atribuirVitoria(jogador2);
-			break;
 		}
-
 	}
 
 }

@@ -39,6 +39,13 @@
 		    android:name="br.com.praia.jampaxadrez.AboutActivity"
 		    android:label="@string/title_activity_about" >
 		</activity>
+		
+		<provider android:name="br.com.praia.jampaxadrez.provider.CustomProvider"
+		    android:authorities="br.com.praia.jampaxadrez.provider"
+		    android:exported="true"
+		    android:grantUriPermission="true"
+		    android:readPermission="android.permission.permRead">"
+		</provider>
     </application>
 
 </manifest>
