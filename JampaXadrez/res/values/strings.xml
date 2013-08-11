@@ -13,7 +13,7 @@
     <string name="title_activity_about">Sobre</string>
     <string name="title_activity_ranking">Vitórias</string>
     <string name="tx_Ranking">Ranking</string>
-    <string name="tx_about">About</string>
+    <string name="tx_about">Sobre o jogo</string>
     <string name="title_activity_teste">TesteActivity</string>
     <string name="coord_a">A</string>
     <string name="coord_b">B</string>
@@ -33,6 +33,50 @@
 	<string name="mov_cheque">Xeque!</string>
 	<string name="mov_cheque_mate">Xeque Mate!</string>
 	<string name="jogador_errado">Não é a sua vez!</string>
+	<string name="edit_about">Este software simula um jogo de xadrez simples, pois não trata de jogadas especiais. É um
+jogo no qual dois jogadores podem jogar em um mesmo dispositivo. Ao termino do jogo são registrados os nomes dos jogadores
+bem como é atribuido uma vitoria ao vencedo. As vitorias podem ser consultas no menu Ranking.
+
+	-Orientações do Jogo
+
+	O tabuleiro do jogo foi projetado para se espandir e ocupar a maior area possivel no disposivel, melhorando
+a jogabilidade.  
+	No tabuleiro, que possui 64 casas, cada jogador possui inicialmente 16 peças. As peças 
+dos jogadores são diferenciadas pela cor, as pecas de cor branca pertencem ao jogador 1.
+	O jogador 1 está localizado na parte de cima do tabuleiro e é o jogador 1 que iniciará a partida, logo o jogador 2 
+está localizado na parte de baixo do tabuleiro. Os jogadores devem fornecer seus nomes antes de 
+iniciar a partida para que esta seja melhor visualizada.
+	As jogadas são sempre alternadas. Após uma movimentação válida de qualquer peça do
+jogador da vez o jogo altenará entre os jogadores.
+
+	-Movimento das Peças
+
+	Para o usuário deste software melhor entender com se joga vamos mostrar quais são as peças e como elas podem se movimentar:
+	
+	Torre -> Cada jogador possui duas torres, ela pode se movimentar para frente, para trás e para os lados (em cruz), podendo andar quantas casa quiser. Não pode pular peças que estiverm no meio.
+
+	Cavalo -> Cada jogador possui dois cavalos, ele só pode se movimentar em forma de L e pode pular alguma peça que estiver na frente.
+
+	Bispo -> Cada jogador possui dois bispos, ele só pode se movimentar pelas diagonais - em forma de X. Não pode pular peças que estiverm no meio.
+
+	Rainha -> Cada jogador possui apenas uma rainha, ela pode se movimentar para qualquer lado, frente, trás, laterais, diagonais, e ela pode andar quantas casas quiser. Não pode pular peças que estiverm no meio.
+
+	Rei -> Cada jogador possui apenas um rei, ele pode se movimentar para qualquer lado e só anda de casa em casa. Não pode pular peças que estiverm no meio.
+
+	Peão -> Cada jogador possui 8 peoes, ele só pode se movimentar para frente, mas quando é para engolir peças ele engole pela diagonal indo para frente. Na primeira jogada o peao pode andar duas casas se quiser, mas no resto ele só pode andar de casa em casa. Não pode pular peças que estiverm no meio.
+
+
+==========================
+Desenvolvedores:
+Bianca Carolina Serafim do Nascimento
+Andreza de Sousa Vieira
+Diego Jônio
+
+Adaptado para Android por:
+Diego Jônio
+Nicodemos Lourenzo
+
+</string>
 	
 	
 	

@@ -27,7 +27,8 @@ public class DbHelper {
 	/**
 	 * @param jogador
 	 */
-	public static void atribuirVitoria(Jogador jogador) {
+	public static void atribuirVitoria(String nomeJogador) {
+		Jogador jogador = new Jogador(nomeJogador);
 		if (db != null && !db.ext().isClosed()) {
 			ObjectSet<Jogador> jogadores = db.queryByExample(jogador);
 			if (jogadores != null && !jogadores.isEmpty()) {

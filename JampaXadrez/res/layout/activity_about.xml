@@ -9,8 +9,25 @@
     tools:context=".AboutActivity" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tx_about" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/tx_about"
+        android:textSize="@dimen/Titulo" />
+
+    <TextView
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:gravity="top|left"
+        android:lines="15"
+        android:scrollbarSize="20dp"
+        android:scrollbars="vertical"
+        android:text="@string/edit_about" />
 
 </RelativeLayout>

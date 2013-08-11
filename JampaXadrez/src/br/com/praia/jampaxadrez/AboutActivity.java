@@ -1,15 +1,26 @@
 package br.com.praia.jampaxadrez;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.widget.EditText;
+import android.widget.Scroller;
 
 public class AboutActivity extends Activity {
+	
+	EditText about;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+		
+		about = (EditText) findViewById(R.id.editText1);
+		about.setScroller(new Scroller(this)); 
+		about.setMaxLines(1); 
+		about.setVerticalScrollBarEnabled(true); 
+		about.setMovementMethod(new ScrollingMovementMethod());
 	}
 
 	@Override
